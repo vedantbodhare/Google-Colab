@@ -1,0 +1,36 @@
+# Install OpenCV
+!pip install opencv-python
+!pip install opencv-python-headless
+
+# Import libraries
+import cv2
+import numpy as np
+from google.colab.patches import cv2_imshow
+from google.colab import files
+import io
+
+# Upload an image
+uploaded = files.upload()
+file_name = next(iter(uploaded))
+image = cv2.imdecode(np.frombuffer(uploaded[file_name], np.uint8), cv2.IMREAD_COLOR)
+cv2_imshow(image)
+
+# Convert to Grayscale
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+cv2_imshow(gray)
+
+# Resize the Image
+resized = cv2.resize(image, (300, 300))
+cv2_imshow(resized)
+
+# Apply Gaussian Blur
+blur = cv2.GaussianBlur(image, (15, 15), 0)
+cv2_imshow(blur)
+
+# Edge Detection (Canny)
+edges = cv2.Canny(image, 100, 200)
+cv2_imshow(edges)
+
+# Save and Download the Processed Image
+cv2.imwrite('processed_image.jpg', edges)
+files.download('processed_image.jpg')
